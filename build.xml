@@ -4,26 +4,20 @@
         <delete dir="dist" />
     </target>
 
+    <!--Compile all java files. Output to build/classes directory-->
     <target name="compile">
         <mkdir dir="build/classes"/>
         <javac srcdir="src" destdir="build/classes" includeantruntime="false"/>
     </target>
 
-    <target name="jar">
-        <mkdir dir="dist"/>
-        <jar destfile="dist/primSTL.jar" basedir="build/classes" >
-            <manifest>
-                <attribute name="Main-Class" value="PrimSTL"/>
-            </manifest>
-        </jar>
-    </target>
-
     <target name="runSTL" depends="clean, compile">
-        <java classname="PrimSTL" classpath="build/classes" fork="true"/>
-        <!--<java jar="dist/primSTL.jar" fork="true"/>-->
+        <java classname="PrimSTL"
+              classpath="build/classes"
+              fork="true">
+            <arg value="inputs/5.txt"/>
+        </java>
     </target>
     <target name="runDS" depends="clean, compile">
         <java classname="PrimDS" classpath="build/classes" />
-        <!--<java jar="dist/primSTL.jar" fork="true"/>-->
     </target>
 </project>
