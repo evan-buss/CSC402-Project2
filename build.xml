@@ -14,7 +14,9 @@
         <java classname="PrimSTL"
               classpath="build/classes"
               fork="true">
-            <arg value="inputs/5.txt"/>
+            <!--<arg value="inputs/5.txt"/>-->
+            <arg value="inputs/large.txt"/>
+            <arg value="2"/>
         </java>
     </target>
     <target name="runDS" depends="clean, compile">

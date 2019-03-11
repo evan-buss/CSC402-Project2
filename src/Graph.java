@@ -19,8 +19,12 @@ class Graph {
     graphFromFile(file);
   }
 
-  public LinkedList<Node> getAllEdges(int i) {
+  LinkedList<Node> getAllEdges(int i) {
     return graph.get(i-1);
+  }
+
+  int getVertices() {
+    return vertices;
   }
 
   @Override
@@ -31,7 +35,7 @@ class Graph {
     for (int i = 0; i < graph.size(); i++) {
       sb.append(i+1);
       sb.append(" --> ");
-      Iterator it = graph.get(i).listIterator(0);
+      Iterator it = graph.get(i).iterator();
       while (it.hasNext()) {
         sb.append(it.next());
         if (it.hasNext()) {
@@ -43,6 +47,8 @@ class Graph {
     return sb.toString();
   }
 
+  // TODO: make use of the line length number instead of reading until the
+  //  end fo file
   private void graphFromFile(String file) {
     try {
       BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -61,10 +67,15 @@ class Graph {
             graph.add(new LinkedList<>());
           }
         } else if (values.length == 3) {
-           // Add
-           graph.get(Integer.parseInt(values[0]))
+           // Add the vertex and edge to both places in the adjacency matrix
+           graph.get(Integer.parseInt(values[0])-1)
                .add(new Node(
                    Integer.parseInt(values[1]),
+                   Integer.parseInt(values[2])));
+
+           graph.get(Integer.parseInt(values[1])-1)
+               .add(new Node(
+                   Integer.parseInt(values[0]),
                    Integer.parseInt(values[2])));
         } else {
           System.err.println("Invalid input file format...");
@@ -82,24 +93,16 @@ class Graph {
     private int vertex;
     private int edgeWeight;
 
-    public Node(int vertex, int edgeWeight) {
+    Node(int vertex, int edgeWeight) {
       this.vertex = vertex;
       this.edgeWeight = edgeWeight;
     }
 
-    public void setVertex(int vertex) {
-      this.vertex = vertex;
-    }
-
-    public void setEdgeWeight(int edgeWeight) {
-      this.edgeWeight = edgeWeight;
-    }
-
-    public int getVertex() {
+    int getVertex() {
       return vertex;
     }
 
-    public int getEdgeWeight() {
+    int getEdgeWeight() {
       return edgeWeight;
     }
 
