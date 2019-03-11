@@ -4,22 +4,59 @@
         <delete dir="dist" />
     </target>
 
-    <!--Compile all java files. Output to build/classes directory-->
-    <target name="compile">
-        <mkdir dir="build/classes"/>
-        <javac srcdir="src" destdir="build/classes" includeantruntime="false"/>
+    <!-- STL Data Structures Version-->
+    <target name="compileSTL">
+        <mkdir dir="build/classes/STL"/>
+        <javac srcdir="src" destdir="build/classes/STL"
+               includeantruntime="false">
+            <include name="PrimSTL.java"/>
+            <include name="Graph.java"/>
+            <include name="Edge.java"/>
+        </javac>
+
+    </target>
+    <target name="compileDS">
+        <mkdir dir="build/classes/DS"/>
+        <javac srcdir="src" destdir="build/classes/DS"
+               includeantruntime="false">
+            <include name="PrimDS.java"/>
+            <include name="Graph.java"/>
+            <include name="Edge.java"/>
+            <include name="EdgePriorityQueue.java"/>
+        </javac>
     </target>
 
-    <target name="runSTL" depends="clean, compile">
+    <target name="runSTL" depends="clean, compileSTL">
+        <input message="Enter the adjacency list source file name."
+               addproperty="fileName"
+               defaultvalue="inputs/large.txt"/>
+        <input
+                message="Enter all source vertices to run. Separate with commas. (Ex. 1,2,3)"
+                addproperty="sources"
+                defaultvalue="1"/>
         <java classname="PrimSTL"
-              classpath="build/classes"
+              classpath="build/classes/STL"
               fork="true">
-            <!--<arg value="inputs/5.txt"/>-->
-            <arg value="inputs/large.txt"/>
-            <arg value="2"/>
+            <arg value="${fileName}"/>
+            <arg value="${sources}"/>
         </java>
     </target>
-    <target name="runDS" depends="clean, compile">
-        <java classname="PrimDS" classpath="build/classes" />
+    <!-- Custom Implemented Data Structures Version-->
+    <target name="runDS" depends="clean, compileDS">
+
+        <input message="Enter the adjacency list source file name."
+               addproperty="fileName"
+                defaultvalue="inputs/5.txt"
+        />
+        <input
+                message="Enter all source vertices to run. Separate with commas. (Ex. 1,2,3)"
+                addproperty="sources"
+                defaultvalue="1"/>
+        <java classname="PrimDS"
+              classpath="build/classes/DS"
+              fork="true">
+            <arg value="${fileName}"/>
+            <arg value="${sources}"/>
+        </java>
     </target>
 </project>
