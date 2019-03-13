@@ -13,17 +13,6 @@
             <include name="Graph.java"/>
             <include name="Edge.java"/>
         </javac>
-
-    </target>
-    <target name="compileDS">
-        <mkdir dir="build/classes/DS"/>
-        <javac srcdir="src" destdir="build/classes/DS"
-               includeantruntime="false">
-            <include name="PrimDS.java"/>
-            <include name="Graph.java"/>
-            <include name="Edge.java"/>
-            <include name="EdgePriorityQueue.java"/>
-        </javac>
     </target>
 
     <target name="runSTL" depends="clean, compileSTL">
@@ -41,7 +30,19 @@
             <arg value="${sources}"/>
         </java>
     </target>
+
     <!-- Custom Implemented Data Structures Version-->
+    <target name="compileDS">
+        <mkdir dir="build/classes/DS"/>
+        <javac srcdir="src" destdir="build/classes/DS"
+               includeantruntime="false">
+            <include name="PrimDS.java"/>
+            <include name="Graph.java"/>
+            <include name="Edge.java"/>
+            <include name="EdgePriorityQueue.java"/>
+        </javac>
+    </target>
+
     <target name="runDS" depends="clean, compileDS">
 
         <input message="Enter the adjacency list source file name."

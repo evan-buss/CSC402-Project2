@@ -1,15 +1,32 @@
+/************************************************************/
+/* Author: Evan Buss                                        */
+/* Major: Computer Science                                  */
+/* Creation Date: March 13, 2019                            */
+/* Due Date: March 22, 2019                                 */
+/* Course: CSC402 - Data Structures 2                       */
+/* Professor: Dr. Spiegel                                   */
+/* Assignment: Project #2                                   */
+/* Filename: EdgePriorityQueue.java                         */
+/* Purpose: *See class header*                              */
+/* Language: Java (Version 8)                               */
+/************************************************************/
+
 import java.util.Arrays;
 
+/**
+ * Implementation of a priority queue of {@link Edge} objects. Makes use of an
+ * underlying binary heap to contain queue values and return the least cost edge
+ */
 class EdgePriorityQueue {
 
   private int size = 0;
   private int capacity;
-  private Edge[] heap = null ;
+  private Edge[] heap;
 
   EdgePriorityQueue(int initialCapacity) {
     capacity = initialCapacity;
     heap = new Edge[capacity];
-    System.out.println(heap.length);
+    // System.out.println(heap.length);
   }
 
   void add(Edge e) {
@@ -20,7 +37,8 @@ class EdgePriorityQueue {
   }
 
   Edge removeLeast() {
-    if (size == 0) throw new IllegalStateException();
+    if (size == 0)
+      throw new IllegalStateException();
     Edge edge = heap[0];
     heap[0] = heap[size - 1]; // Set last element to first element
     size--;
@@ -47,8 +65,7 @@ class EdgePriorityQueue {
 
   private void heapUp() {
     int index = size - 1;
-    while (hasParent(index) &&
-        getParent(index).getEdgeWeight() > heap[index].getEdgeWeight()) {
+    while (hasParent(index) && getParent(index).getEdgeWeight() > heap[index].getEdgeWeight()) {
       swap(getParentIndex(index), index);
       index = getParentIndex(index);
     }
@@ -58,8 +75,7 @@ class EdgePriorityQueue {
     int index = 0;
     while (hasLeftChild(index)) {
       int smallerChildIndex = getLeftChildIndex(index);
-      if (hasRightChild(index)
-          && getRightChild(index).getEdgeWeight() < getLeftChild(index).getEdgeWeight()) {
+      if (hasRightChild(index) && getRightChild(index).getEdgeWeight() < getLeftChild(index).getEdgeWeight()) {
         smallerChildIndex = getRightChildIndex(index);
       }
 

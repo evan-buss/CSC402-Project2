@@ -1,11 +1,55 @@
+/************************************************************/
+/* Author: Evan Buss                                        */
+/* Major: Computer Science                                  */
+/* Creation Date: March 13, 2019                            */
+/* Due Date: March 22, 2019                                 */
+/* Course: CSC402 - Data Structures 2                       */
+/* Professor: Dr. Spiegel                                   */
+/* Assignment: Project #2                                   */
+/* Filename: PrimDS.java                                    */
+/* Purpose:  *See class header*                             */
+/* Language: Java (Version 8)                               */
+/************************************************************/
+
 import java.util.Arrays;
 
+/**
+ * Implementation of Prim's algorithm that finds the minimum spanning tree of a
+ * {@link Graph}. This implementation makes use of primitive data structures
+ * without using any STL structures. The biggest change is the use of
+ * {@link EdgePriorityQueue} instead of the STL {@link java.util.PriorityQueue}
+ * generic class.
+ *
+ * <p>The algorithm is timed using the {@link System} nanoTime() method which
+ * provides nano second accuracy. The algorithm's run time is displayed to
+ * the console when finished.
+ */
 public class PrimDS {
+
+  /**
+   * Run the Prim's algorithm using custom data structures.
+   *
+   * <p>The program expects 2 arguments:
+   *
+   * <ul>
+   * <li>Text file containing the graph that the algorithm should be run on
+   * <li>List containing source vertex or vertices that the algorithm should start with. Such
+   * as:
+   * <ul>
+   * <li>1,2,3
+   * <li>1
+   * <li>1,1,1,1,2,2,2,3,3,4
+   * </ul>
+   * </ul>
+   * <p>The algorithm will loop until it runs once for each source vertex provided.
+   *
+   * @param args Program arguments of format described above.
+   */
   public static void main(String[] args) {
     if (args.length == 2) {
       // Create a new graph object from the input file given as command line arg
       Graph graph = new Graph(args[0]);
-      System.out.println(graph.toString());
+      System.out.println(graph);
 
       // Make an array of all the given starting vertices
       String[] sources = args[1].split(",");
@@ -20,15 +64,26 @@ public class PrimDS {
         }
       }
     } else {
-      System.out.println("Usage: [file name] " +
-          "[comma separated source vertex list]");
+      System.out.println("Usage: [file name] " + "[comma separated source vertex list]");
     }
   }
 
+  // Create ant task for javadoc. Make testable via driver
+
+  /**
+   * Implementation of Prim's algorithm with custom data structures.
+   *
+   * <p>Namely an {@link EdgePriorityQueue} and a standard int[] array. Prints
+   * the total
+   * weight of the Minimum Spanning Tree and the path it took when finished.
+   * Also displays the total algorithm execution time in microseconds.
+   *
+   * @param graph  Graph object representing the graph loaded from a graph file
+   * @param vertex The source vertex that the algorithm should start from
+   */
   private static void primsDS(Graph graph, int vertex) {
     int weight = 0;
-    EdgePriorityQueue availableEdges =
-        new EdgePriorityQueue(1);
+    EdgePriorityQueue availableEdges = new EdgePriorityQueue(1);
     int index = 0;
     int[] vertices = new int[graph.getVertices()];
 
@@ -38,11 +93,8 @@ public class PrimDS {
     index++;
 
     // Enqueue all adjacent vertices
-    for (Graph.Node node : graph.getAllEdges(vertex)) {
-      availableEdges.add(
-          new Edge(vertex,
-              node.getVertex(),
-              node.getEdgeWeight()));
+    for (Edge edge : graph.getAllEdges(vertex)) {
+      availableEdges.add(new Edge(vertex, edge.getTo(), edge.getEdgeWeight()));
     }
 
     // Run until there are no other possible vertices.
@@ -59,11 +111,11 @@ public class PrimDS {
         vertices[index] = vertex; // Add the selected vertex to the set
         index++;
         // Enqueue all adjacent vertices
-        for (Graph.Node node : graph.getAllEdges(vertex)) {
-          availableEdges.add(
-              new Edge(vertex,
-                  node.getVertex(),
-                  node.getEdgeWeight()));
+        for (Edge edge : graph.getAllEdges(vertex)) {
+          availableEdges.add(new Edge(
+              vertex,
+              edge.getTo(),
+              edge.getEdgeWeight()));
         }
       }
     }
@@ -72,10 +124,19 @@ public class PrimDS {
     System.out.println(Arrays.toString(vertices));
     System.out.println("Weight: " + weight);
     System.out.println("Milliseconds: " +
-        (double) (endNano - startNano) / 1000000 +
+        (double) (endNano - startNano) / 1000 +
         " (" + (endNano - startNano) + ")\n");
   }
 
+  /**
+   * Helper method to check if an array already contains a certain integer.
+   * <p>
+   * Loops through the given array until it finds the specified value.
+   *
+   * @param array int[] array to search
+   * @param value value to search for in the array
+   * @return Returns true if value is found. False otherwise.
+   */
   private static boolean contains(int[] array, int value) {
     for (int v : array) {
       if (v == value) {

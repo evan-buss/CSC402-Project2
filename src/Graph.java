@@ -1,4 +1,18 @@
+/************************************************************/
+/* Author: Evan Buss                                        */
+/* Major: Computer Science                                  */
+/* Creation Date: March 13, 2019                            */
+/* Due Date: March 22, 2019                                 */
+/* Course: CSC402 - Data Structures 2                       */
+/* Professor: Dr. Spiegel                                   */
+/* Assignment: Project #2                                   */
+/* Filename: Graph.java                                     */
+/* Purpose: *See class header*                              */
+/* Language: Java (Version 8)                               */
+/************************************************************/
+
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,32 +20,80 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * {@link Graph} is an object that represents an adjacency list representation of a
+ * graph. It reads from a properly formatted text file:
+ * <ul>
+ * <li>Line 1: [vertex count] [edge count]</li>
+ * <li>Line 2-*: [vertex from] [vertex to] [edge weight]</li>
+ * </ul>
+ * The program will read the first line and then read lines until it reaches
+ * the given edge count.
+ * <p>Under the hood, the Graph object is an {@link ArrayList} of
+ * {@link LinkedList} of {@link Edge}.
+ */
 class Graph {
-
-  //  Read from the input file and create a graph object.
-  // TODO: Not sure if I can use the STL Linked List in both programs
   // Graph is an adjaceny list.
-  //  It is stored as an ArrayList of LinkedLists containing Nodes
-  private List<LinkedList<Node>> graph = new ArrayList<>();
+  // It is stored as an ArrayList of LinkedLists containing Edge objects
+  private List<LinkedList<Edge>> graph = new ArrayList<>();
   private int edges;
   private int vertices;
 
+  /**
+   * Create a new {@link Graph} object from the specified input file
+   *
+   * @param file Name of the file to be read. Accepts relative and absolute
+   *             paths as well.
+   */
   Graph(String file) {
     graphFromFile(file); // Create graph object from file
   }
 
-  LinkedList<Node> getAllEdges(int i) {
+  /**
+   * Get all edges for a specific vertex
+   *
+   * @param i graph vertex
+   * @return LinkedList of all the edges connected to the specified vertex.
+   */
+  LinkedList<Edge> getAllEdges(int i) {
     return graph.get(i - 1);
   }
 
-  public int getEdges() {
+  /**
+   * Get the total number of edges contained in the {@link Graph}
+   *
+   * @return number of edges in the Graph
+   */
+  int getEdges() {
     return edges;
   }
 
+  /**
+   * Get the total number of vertices contained in the {@link Graph}
+   *
+   * @return number of vertices in the Graph
+   */
   int getVertices() {
     return vertices;
   }
 
+  /**
+   * Generate a {@link Graph} from the given file name.
+   *
+   * <p>The input file should have the following format (Values must be
+   * separated by a single space character):
+   *
+   * <ul>
+   * <li>Line 1: [vertex count] [edge count]
+   * <li>Line 2-*: [vertex from] [vertex to] [edge weight]
+   * </ul>
+   *
+   * <p>The function will read the first line and then read lines until it
+   * reaches the given edge count.
+   *
+   * @param file Name of the file to be read. Accepts relative and absolute
+   *             paths as well.
+   */
   private void graphFromFile(String file) {
     try {
       BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -39,14 +101,16 @@ class Graph {
       int linesLeft = 1;
       while (linesLeft > 0) {
         line = reader.readLine();
-        String[] values = line.split(" ");
+        // FIXME
+        // Replace double spaces with single spaces, the first line of the
+        // graph generator has a bug where it outputs 2 spaces instead of 1
+        String[] values = line.replace("  ", " ").split(" ");
         // First line states graph properties
         if (values.length == 2) {
-          // Create new graph with length stated on first line of input
-
 
           // Set number of edges and vertices from first line
           vertices = Integer.parseInt(values[0]);
+          // Create new graph with size based on given number of vertices
           graph = new ArrayList<>(vertices);
           edges = Integer.parseInt(values[1]);
           linesLeft += edges;
@@ -57,19 +121,29 @@ class Graph {
           }
         } else if (values.length == 3) {
           // Add the vertex and edge to both places in the adjacency matrix
-          graph
-              .get(Integer.parseInt(values[0]) - 1)
-              .add(new Node(Integer.parseInt(values[1]), Integer.parseInt(values[2])));
+          graph.get(Integer.parseInt(values[0]) - 1)
+              .add(new Edge(
+                  Integer.parseInt(values[0]),
+                  Integer.parseInt(values[1]),
+                  Integer.parseInt(values[2])));
 
-          graph
-              .get(Integer.parseInt(values[1]) - 1)
-              .add(new Node(Integer.parseInt(values[0]), Integer.parseInt(values[2])));
+          graph.get(Integer.parseInt(values[1]) - 1)
+              .add(new Edge(
+                  Integer.parseInt(values[1]),
+                  Integer.parseInt(values[0]),
+                  Integer.parseInt(values[2])));
         } else {
           System.err.println("Invalid input file format...");
-          throw new IOException();
+          throw new IllegalArgumentException();
         }
         linesLeft--;
       }
+    } catch (FileNotFoundException e) {
+      System.err.println("File could not be find.");
+      System.exit(-1);
+    } catch (IllegalArgumentException e) {
+      System.err.println("File is not formatted properly.");
+      System.exit(-1);
     } catch (IOException e) {
       e.printStackTrace();
       System.err.println("Error reading graph file.");
@@ -77,10 +151,15 @@ class Graph {
     }
   }
 
+  /**
+   * Outputs the {@link Graph} in a properly formatted String.
+   *
+   * @return Graph contents as a string.
+   */
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("Vertices  (vertex, edge weight)\n");
+    sb.append("Vertices  (from vertex, to vertex, edge weight)\n");
     sb.append("-------------------------------\n");
     for (int i = 0; i < graph.size(); i++) {
       sb.append(i + 1);
@@ -95,28 +174,5 @@ class Graph {
       sb.append("\n");
     }
     return sb.toString();
-  }
-
-  public class Node {
-    private int vertex;
-    private int edgeWeight;
-
-    Node(int vertex, int edgeWeight) {
-      this.vertex = vertex;
-      this.edgeWeight = edgeWeight;
-    }
-
-    int getVertex() {
-      return vertex;
-    }
-
-    int getEdgeWeight() {
-      return edgeWeight;
-    }
-
-    @Override
-    public String toString() {
-      return "(" + vertex + ", " + edgeWeight + ")";
-    }
   }
 }
