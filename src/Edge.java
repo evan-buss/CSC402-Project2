@@ -19,24 +19,46 @@ public class Edge {
   private int to;
   private int edgeWeight;
 
+  /**
+   * Creates a new {@link Edge} object.
+   * @param from Vertex that the edge comes from (out)
+   * @param to Vertex that the edges goes to (in)
+   * @param edgeWeight Weight of the edge
+   */
   public Edge(int from, int to, int edgeWeight) {
     this.from = from;
     this.to = to;
     this.edgeWeight = edgeWeight;
   }
 
+  /**
+   * Get the vertex that the edge comes from (out)
+   * @return vertex
+   */
   public int getFrom() {
     return from;
   }
 
+  /**
+   * Get the vertex that the edges goes to (in)
+   * @return vertex
+   */
   public int getTo() {
     return to;
   }
 
+  /**
+   * Get the weight of the edge
+   * @return edge weight
+   */
   int getEdgeWeight() {
     return edgeWeight;
   }
 
+  /**
+   * Format the {@link Edge} to a String
+   * @return String representation of the Edge
+   */
   @Override
   public String toString() {
     return "(" + from + ", " + to + ", " + edgeWeight + ")";
