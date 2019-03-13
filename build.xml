@@ -18,7 +18,7 @@
     <target name="runSTL" depends="clean, compileSTL">
         <input message="Enter the adjacency list source file name."
                addproperty="fileName"
-               defaultvalue="inputs/large.txt"/>
+               defaultvalue="inputs/5.txt"/>
         <input
                 message="Enter all source vertices to run. Separate with commas. (Ex. 1,2,3)"
                 addproperty="sources"
