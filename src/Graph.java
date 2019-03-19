@@ -102,8 +102,8 @@ class Graph {
       while (linesLeft > 0) {
         line = reader.readLine();
         // FIXME
-        // Replace double spaces with single spaces, the first line of the
         // graph generator has a bug where it outputs 2 spaces instead of 1
+        // Replace double spaces with single spaces, the first line of the
         String[] values = line.replace("  ", " ").split(" ");
         // First line states graph properties
         if (values.length == 2) {

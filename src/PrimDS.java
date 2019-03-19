@@ -68,8 +68,6 @@ public class PrimDS {
     }
   }
 
-  // Create ant task for javadoc. Make testable via driver
-
   /**
    * Implementation of Prim's algorithm with custom data structures.
    *
@@ -83,7 +81,7 @@ public class PrimDS {
    */
   private static void primsDS(Graph graph, int vertex) {
     int weight = 0;
-    EdgePriorityQueue availableEdges = new EdgePriorityQueue(1);
+    EdgePriorityQueue availableEdges = new EdgePriorityQueue(graph.getVertices());
     int index = 0;
     int[] vertices = new int[graph.getVertices()];
 
@@ -120,10 +118,11 @@ public class PrimDS {
       }
     }
     long endNano = System.nanoTime();
+
     System.out.println("Minimum Spanning Tree: ");
     System.out.println(Arrays.toString(vertices));
     System.out.println("Weight: " + weight);
-    System.out.println("Milliseconds: " +
+    System.out.println("Microseconds: " +
         (double) (endNano - startNano) / 1000 +
         " (" + (endNano - startNano) + ")\n");
   }

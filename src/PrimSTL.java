@@ -118,7 +118,7 @@ public class PrimSTL {
     System.out.println("Minimum Spanning Tree: ");
     System.out.println(vertices);
     System.out.println("Weight: " + weight);
-    System.out.println("Milliseconds: " +
+    System.out.println("Microseconds: " +
         (double) (endNano - startNano) / 1000 +
         " (" + (endNano - startNano) + ")\n");
   }
