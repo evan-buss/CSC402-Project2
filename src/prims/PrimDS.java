@@ -92,7 +92,7 @@ public class PrimDS {
    * @param graph  prim.Graph object representing the graph loaded from a graph file
    * @param vertex The source vertex that the algorithm should start from
    */
-  private static void primsDS(Graph graph, int vertex) {
+  public static void primsDS(Graph graph, int vertex) {
     int weight = 0;
     EdgePriorityQueue availableEdges =
         new EdgePriorityQueue(graph.getVertices());

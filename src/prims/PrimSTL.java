@@ -94,7 +94,7 @@ public class PrimSTL {
    * @param graph  prim.Graph object representing the graph loaded from a graph file
    * @param vertex The source vertex that the algorithm should start from
    */
-  private static void primsSTL(Graph graph, int vertex) {
+  public static void primsSTL(Graph graph, int vertex) {
     int weight = 0;
     PriorityQueue<Edge> availableEdges =
         new PriorityQueue<>(graph.getEdges(), new EdgeComparator());

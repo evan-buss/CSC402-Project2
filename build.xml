@@ -57,8 +57,33 @@
     </target>
 
     <target name="runBenchmark" depends="compilePrims, compileBenchmark">
+        <input message="Enter folder containing test files:"
+               defaultvalue="../inputs"
+               addproperty="directory"
+        />
+        <input message="Enter random seed:"
+               defaultvalue="28"
+               addproperty="seed"
+        />
         <java className="benchmark.Main"
               dir="build"
-              fork="true"/>
+              fork="true">
+            <arg value="${directory}"/>
+            <arg value="${seed}"/>
+        </java>
     </target>
+
+    <!-- Create Jar -->
+    <target name="buildJar" depends="compilePrims, compileBenchmark">
+        <jar destfile="build/lib/primBench.jar"
+        basedir="build"
+        includes="benchmark/**, prims/**">
+
+            <manifest>
+                <attribute name="Main-Class" value="benchmark.Main"/>
+            </manifest>
+
+        </jar>
+    </target>
+
 </project>
