@@ -1,6 +1,3 @@
-/**
- * ********************************************************  *********************************************************
- */
 /* Author: Evan Buss                                        */
 /* Major: Computer Science                                  */
 /* Creation Date: March 13, 2019                            */
@@ -11,13 +8,12 @@
 /* Filename: Edge.java                                      */
 /* Purpose: *See class header*                              */
 /* Language: Java (Version 8)                               */
-/** ********************************************************* */
 
 /** {@link Edge} represents a single edge in an undirected graph. */
-public class Edge {
-  private int from;
-  private int to;
-  private int edgeWeight;
+class Edge {
+  private final int from;
+  private final int to;
+  private final int edgeWeight;
 
   /**
    * Creates a new {@link Edge} object.
@@ -25,7 +21,7 @@ public class Edge {
    * @param to Vertex that the edges goes to (in)
    * @param edgeWeight Weight of the edge
    */
-  public Edge(int from, int to, int edgeWeight) {
+  Edge(int from, int to, int edgeWeight) {
     this.from = from;
     this.to = to;
     this.edgeWeight = edgeWeight;

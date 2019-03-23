@@ -1,4 +1,3 @@
-/************************************************************/
 /* Author: Evan Buss                                        */
 /* Major: Computer Science                                  */
 /* Creation Date: March 13, 2019                            */
@@ -9,7 +8,6 @@
 /* Filename: Graph.java                                     */
 /* Purpose: *See class header*                              */
 /* Language: Java (Version 8)                               */
-/************************************************************/
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -21,8 +19,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * {@link Graph} is an object that represents an adjacency list representation of a
- * graph. It reads from a properly formatted text file:
+ * {@link Graph} is an object that represents an adjacency list representation
+ * of a graph. It reads from a properly formatted text file:
  * <ul>
  * <li>Line 1: [vertex count] [edge count]</li>
  * <li>Line 2-*: [vertex from] [vertex to] [edge weight]</li>
@@ -38,6 +36,7 @@ class Graph {
   private List<LinkedList<Edge>> graph = new ArrayList<>();
   private int edges;
   private int vertices;
+  private int batchVertex;
 
   /**
    * Create a new {@link Graph} object from the specified input file
@@ -78,6 +77,17 @@ class Graph {
   }
 
   /**
+   * Get the first vertex read from the input file.
+   * <p>
+   * Useful for batch mode if the user doesn't want to specify a vertex
+   *
+   * @return first vertex read from file
+   */
+  int getBatchVertex() {
+    return batchVertex;
+  }
+
+  /**
    * Generate a {@link Graph} from the given file name.
    *
    * <p>The input file should have the following format (Values must be
@@ -95,19 +105,22 @@ class Graph {
    *             paths as well.
    */
   private void graphFromFile(String file) {
+    // Used to detect when the first line is ready to be read
+    boolean readyToReadBatch = false;
+    String line; // Line read from file.
+    int linesLeft = 1; // Read at least a single line
+
     try {
       BufferedReader reader = new BufferedReader(new FileReader(file));
-      String line;
-      int linesLeft = 1;
+
       while (linesLeft > 0) {
         line = reader.readLine();
         // FIXME
         // graph generator has a bug where it outputs 2 spaces instead of 1
-        // Replace double spaces with single spaces, the first line of the
+        // on first line
         String[] values = line.replace("  ", " ").split(" ");
         // First line states graph properties
         if (values.length == 2) {
-
           // Set number of edges and vertices from first line
           vertices = Integer.parseInt(values[0]);
           // Create new graph with size based on given number of vertices
@@ -119,8 +132,18 @@ class Graph {
           for (int i = 0; i < Integer.parseInt(values[0]); i++) {
             graph.add(new LinkedList<>());
           }
+
+          readyToReadBatch = true;
         } else if (values.length == 3) {
+          // The first edge read from the file will be used as the source
+          // vertex if the user does not specify which vertex they wish to use
+          // as command line argument
+          if (readyToReadBatch) {
+            batchVertex = Integer.parseInt(values[0]);
+            readyToReadBatch = false;
+          }
           // Add the vertex and edge to both places in the adjacency matrix
+          // Because the graph is undirected it's edges connect both directions
           graph.get(Integer.parseInt(values[0]) - 1)
               .add(new Edge(
                   Integer.parseInt(values[0]),
@@ -139,7 +162,7 @@ class Graph {
         linesLeft--;
       }
     } catch (FileNotFoundException e) {
-      System.err.println("File could not be find.");
+      System.err.println("File could not be found.");
       System.exit(-1);
     } catch (IllegalArgumentException e) {
       System.err.println("File is not formatted properly.");

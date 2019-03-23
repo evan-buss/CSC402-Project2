@@ -1,4 +1,3 @@
-/************************************************************/
 /* Author: Evan Buss                                        */
 /* Major: Computer Science                                  */
 /* Creation Date: March 13, 2019                            */
@@ -9,13 +8,15 @@
 /* Filename: EdgePriorityQueue.java                         */
 /* Purpose: *See class header*                              */
 /* Language: Java (Version 8)                               */
-/************************************************************/
 
 import java.util.Arrays;
 
 /**
  * Implementation of a priority queue of {@link Edge} objects. Makes use of an
  * underlying binary heap to contain queue values and return the least cost edge
+ *
+ * <p>Binary heap implementation based on Hacker Rank's video on Heaps
+ * <a href="https://www.youtube.com/watch?v=t0Cq6tVNRBA">found here.</a>
  */
 class EdgePriorityQueue {
 
@@ -101,7 +102,8 @@ class EdgePriorityQueue {
   private void heapUp() {
     int index = size - 1; // Set index to the last element of heap
     // Loop until the heap is satisfied
-    while (hasParent(index) && getParent(index).getEdgeWeight() > heap[index].getEdgeWeight()) {
+    while (hasParent(index) &&
+        getParent(index).getEdgeWeight() > heap[index].getEdgeWeight()) {
       // Swap the index value to its parent until its weight is smaller than
       // its parent
       swap(getParentIndex(index), index);
@@ -121,7 +123,8 @@ class EdgePriorityQueue {
       // Get index of left child
       int smallerChildIndex = getLeftChildIndex(index);
       // Check if weight of left child is smaller than the weight of the right
-      if (hasRightChild(index) && getRightChild(index).getEdgeWeight() < getLeftChild(index).getEdgeWeight()) {
+      if (hasRightChild(index) &&
+          getRightChild(index).getEdgeWeight() < getLeftChild(index).getEdgeWeight()) {
         // Set smaller child to the right index instead
         smallerChildIndex = getRightChildIndex(index);
       }
