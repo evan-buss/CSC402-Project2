@@ -1,3 +1,5 @@
+package prims;
+
 /* Author: Evan Buss                                        */
 /* Major: Computer Science                                  */
 /* Creation Date: March 13, 2019                            */
@@ -5,7 +7,7 @@
 /* Course: CSC402 - Data Structures 2                       */
 /* Professor: Dr. Spiegel                                   */
 /* Assignment: Project #2                                   */
-/* Filename: Graph.java                                     */
+/* Filename: prim.Graph.java                                     */
 /* Purpose: *See class header*                              */
 /* Language: Java (Version 8)                               */
 
@@ -27,12 +29,12 @@ import java.util.List;
  * </ul>
  * The program will read the first line and then read lines until it reaches
  * the given edge count.
- * <p>Under the hood, the Graph object is an {@link ArrayList} of
+ * <p>Under the hood, the prim.Graph object is an {@link ArrayList} of
  * {@link LinkedList} of {@link Edge}.
  */
-class Graph {
-  // Graph is an adjaceny list.
-  // It is stored as an ArrayList of LinkedLists containing Edge objects
+public class Graph {
+  // prim.Graph is an adjaceny list.
+  // It is stored as an ArrayList of LinkedLists containing prim.Edge objects
   private List<LinkedList<Edge>> graph = new ArrayList<>();
   private int edges;
   private int vertices;
@@ -44,7 +46,7 @@ class Graph {
    * @param file Name of the file to be read. Accepts relative and absolute
    *             paths as well.
    */
-  Graph(String file) {
+  public Graph(String file) {
     graphFromFile(file); // Create graph object from file
   }
 
@@ -61,7 +63,7 @@ class Graph {
   /**
    * Get the total number of edges contained in the {@link Graph}
    *
-   * @return number of edges in the Graph
+   * @return number of edges in the prim.Graph
    */
   int getEdges() {
     return edges;
@@ -70,7 +72,7 @@ class Graph {
   /**
    * Get the total number of vertices contained in the {@link Graph}
    *
-   * @return number of vertices in the Graph
+   * @return number of vertices in the prim.Graph
    */
   int getVertices() {
     return vertices;
@@ -177,7 +179,7 @@ class Graph {
   /**
    * Outputs the {@link Graph} in a properly formatted String.
    *
-   * @return Graph contents as a string.
+   * @return prim.Graph contents as a string.
    */
   @Override
   public String toString() {

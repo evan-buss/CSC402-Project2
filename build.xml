@@ -6,20 +6,15 @@
         <delete dir="build"/>
     </target>
 
-    <!-- STL Data Structures Version-->
-    <!-- Compilation -->
-    <target name="compileSTL">
-        <mkdir dir="build/STL"/>
-        <javac srcdir="src" destdir="build/STL"
-               includeantruntime="false">
-            <include name="PrimSTL.java"/>
-            <include name="Graph.java"/>
-            <include name="Edge.java"/>
-        </javac>
+    <!-- Compilation Prims Algorithm Class Files-->
+    <target name="compilePrims">
+        <mkdir dir="build"/>
+        <javac srcdir="src/prims" destdir="build"
+               includeantruntime="false"/>
     </target>
 
-    <!-- Execution -->
-    <target name="runSTL" depends="compileSTL">
+    <!-- Run STL Version -->
+    <target name="runSTL" depends="compilePrims">
         <input message="Enter the adjacency list source file name."
                addproperty="fileName"/>
         <input
@@ -27,29 +22,16 @@
                 ${line.separator}Leave blank to use first vertex read from file.
                 ${line.separator}(Ex. 1,2,3)"
                 addproperty="sources"/>
-        <java classname="PrimSTL"
-              classpath="build/STL"
+        <java classname="prims.PrimSTL"
+              classpath="build"
               fork="true">
             <arg value="${fileName}"/>
             <arg value="${sources}"/>
         </java>
     </target>
 
-    <!-- Custom Implemented Data Structures Version-->
-    <!-- Compilation -->
-    <target name="compileDS">
-        <mkdir dir="build/DS"/>
-        <javac srcdir="src" destdir="build/DS"
-               includeantruntime="false">
-            <include name="PrimDS.java"/>
-            <include name="Graph.java"/>
-            <include name="Edge.java"/>
-            <include name="EdgePriorityQueue.java"/>
-        </javac>
-    </target>
-
-    <!-- Execution -->
-    <target name="runDS" depends="compileDS">
+    <!-- Run Data Structures Version -->
+    <target name="runDS" depends="compilePrims">
         <input message="Enter the adjacency list source file name."
                addproperty="fileName"
         />
@@ -59,11 +41,24 @@
                 ${line.separator}(Ex. 1,2,3)"
                 addproperty="sources"
         />
-        <java classname="PrimDS"
-              classpath="build/DS"
+        <java classname="prims.PrimDS"
+              classpath="build"
               fork="true">
             <arg value="${fileName}"/>
             <arg value="${sources}"/>
         </java>
+    </target>
+
+    <!-- Compile the Benchmark Classes-->
+    <target name="compileBenchmark">
+        <mkdir dir="build"/>
+        <javac srcdir="src/benchmark" destdir="build"
+               includeantruntime="false"/>
+    </target>
+
+    <target name="runBenchmark" depends="compilePrims, compileBenchmark">
+        <java className="benchmark.Main"
+              dir="build"
+              fork="true"/>
     </target>
 </project>

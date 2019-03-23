@@ -1,3 +1,5 @@
+package prims;
+
 /* Author: Evan Buss                                        */
 /* Major: Computer Science                                  */
 /* Creation Date: March 13, 2019                            */
@@ -5,7 +7,7 @@
 /* Course: CSC402 - Data Structures 2                       */
 /* Professor: Dr. Spiegel                                   */
 /* Assignment: Project #2                                   */
-/* Filename: EdgePriorityQueue.java                         */
+/* Filename: prim.EdgePriorityQueue.java                         */
 /* Purpose: *See class header*                              */
 /* Language: Java (Version 8)                               */
 
@@ -37,19 +39,19 @@ class EdgePriorityQueue {
   /**
    * Add an {@link Edge} to the priority queue
    *
-   * @param e Edge to be added to the queue
+   * @param e prim.Edge to be added to the queue
    */
   void add(Edge e) {
     checkCapacity(); // Make sure heap array is large enough
     heap[size] = e;  // Put the new edge at the end of the heap
     size++;          // Increase the size
-    heapUp();        // Heap new Edge upward until heap property is satisfied
+    heapUp();        // Heap new prim.Edge upward until heap property is satisfied
   }
 
   /**
    * Remove the least cost edge from the queue
    *
-   * @return Edge with the least cost
+   * @return prim.Edge with the least cost
    */
   Edge removeLeast() {
     // If queue is empty, throw exception.
@@ -74,8 +76,8 @@ class EdgePriorityQueue {
   /**
    * Swap two edges in the queue
    *
-   * @param indexOne Index of first Edge to swap
-   * @param indexTwo Index of second Edge to swap
+   * @param indexOne Index of first prim.Edge to swap
+   * @param indexTwo Index of second prim.Edge to swap
    */
   private void swap(int indexOne, int indexTwo) {
     Edge temp = heap[indexOne]; // Save the current value at indexOne
@@ -148,7 +150,7 @@ class EdgePriorityQueue {
   /**
    * Get the index of the given index's left child
    *
-   * @param index index of the Edge to get the left child of
+   * @param index index of the prim.Edge to get the left child of
    * @return index of left child
    */
   private int getLeftChildIndex(int index) {
@@ -158,7 +160,7 @@ class EdgePriorityQueue {
   /**
    * Get the index of the given index's right child
    *
-   * @param index index of the Edge to get the right child of
+   * @param index index of the prim.Edge to get the right child of
    * @return index of right child
    */
   private int getRightChildIndex(int index) {
@@ -168,7 +170,7 @@ class EdgePriorityQueue {
   /**
    * Get the index of the given index's parent
    *
-   * @param index index of the Edge to get the parent of
+   * @param index index of the prim.Edge to get the parent of
    * @return index of parent child
    */
   private int getParentIndex(int index) {
@@ -178,7 +180,7 @@ class EdgePriorityQueue {
   /**
    * Check if the given index has a parent
    *
-   * @param index index of the Edge to check if parent exists
+   * @param index index of the prim.Edge to check if parent exists
    * @return True if the index has a parent. False if not.
    */
   private boolean hasParent(int index) {
@@ -188,7 +190,7 @@ class EdgePriorityQueue {
   /**
    * Check if the given index has a left child
    *
-   * @param index index of the Edge to check if left child exists
+   * @param index index of the prim.Edge to check if left child exists
    * @return True if index has a left child. False if not.
    */
   private boolean hasLeftChild(int index) {
@@ -198,7 +200,7 @@ class EdgePriorityQueue {
   /**
    * Check if the given index has a right child
    *
-   * @param index index of the Edge to check if right child exists
+   * @param index index of the prim.Edge to check if right child exists
    * @return True if index has a right child. False if not.
    */
   private boolean hasRightChild(int index) {
@@ -208,8 +210,8 @@ class EdgePriorityQueue {
   /**
    * Get the left child of the given index
    *
-   * @param index index of the Edge to get the left child of
-   * @return Edge that is the left child
+   * @param index index of the prim.Edge to get the left child of
+   * @return prim.Edge that is the left child
    */
   private Edge getLeftChild(int index) {
     return heap[getLeftChildIndex(index)];
@@ -217,8 +219,8 @@ class EdgePriorityQueue {
 
   /**
    * Get the right child of the given index
-   * @param index index of the Edge to get the right child of
-   * @return Edge that is the right child
+   * @param index index of the prim.Edge to get the right child of
+   * @return prim.Edge that is the right child
    */
   private Edge getRightChild(int index) {
     return heap[getRightChildIndex(index)];
@@ -226,8 +228,8 @@ class EdgePriorityQueue {
 
   /**
    * Get the parent of the given index
-   * @param index index of the Edge to get the parent of
-   * @return Edge that is the parent
+   * @param index index of the prim.Edge to get the parent of
+   * @return prim.Edge that is the parent
    */
   private Edge getParent(int index) {
     return heap[getParentIndex(index)];

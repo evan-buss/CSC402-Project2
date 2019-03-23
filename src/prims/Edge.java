@@ -1,3 +1,5 @@
+package prims;
+
 /* Author: Evan Buss                                        */
 /* Major: Computer Science                                  */
 /* Creation Date: March 13, 2019                            */
@@ -5,7 +7,7 @@
 /* Course: CSC402 - Data Structures 2                       */
 /* Professor: Dr. Spiegel                                   */
 /* Assignment: Project #2                                   */
-/* Filename: Edge.java                                      */
+/* Filename: prim.Edge.java                                      */
 /* Purpose: *See class header*                              */
 /* Language: Java (Version 8)                               */
 
@@ -53,7 +55,7 @@ class Edge {
 
   /**
    * Format the {@link Edge} to a String
-   * @return String representation of the Edge
+   * @return String representation of the prim.Edge
    */
   @Override
   public String toString() {
