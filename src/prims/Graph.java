@@ -74,7 +74,7 @@ public class Graph {
    *
    * @return number of vertices in the prim.Graph
    */
-  int getVertices() {
+  public int getVertices() {
     return vertices;
   }
 

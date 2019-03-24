@@ -11,19 +11,20 @@ import java.time.format.DateTimeFormatter;
 
 // This class instantiate the tests
 public class Main {
+  static CSVWriter writer;
 
   public static void main(String[] args) {
     File inputDirectory = new File(args[0]);
 
     LocalDateTime date = LocalDateTime.now();
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyy hh:mm a");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyy hh-mm a");
     String outputFileName = date.format(dtf);
 
     try {
-
-      CSVWriter writer = new CSVWriter(outputFileName + ".csv");
-      writer.writeHead("File Name", "Trial Number", "Time", "Algorithm");
-      writer.close();
+      writer = new CSVWriter(outputFileName + ".csv");
+      writer.writeLine(
+          "File Name", "Algorithm", "Trial Number", "Vertex", "Time"
+      );
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -34,17 +35,62 @@ public class Main {
         for (File file : files) {
           System.out.println("Running on: " + file.getName());
           Graph graph = new Graph(file.getAbsolutePath());
-
-          System.out.println("STL");
-          PrimSTL.primsSTL(graph, 1);
-
-          System.out.println("DS");
-          PrimDS.primsDS(graph, 1);
+          runSTLBenchmark(graph, 100, file.getName());
+          runDSBenchmark(graph, 100, file.getName());
         }
       }
+      writer.close();
     } else {
       System.err.println("Invalid Directory Specified...Exiting");
       System.exit(-1);
+    }
+  }
+
+  /**
+   * Run the given graph through the STL implementation of Prims
+   *
+   * @param graph      Graph file that the algorithms should be run on
+   * @param iterations Number of times each algorithm should be run
+   */
+  static void runSTLBenchmark(Graph graph, int iterations,
+                              String fileName) {
+    int vertices = graph.getVertices();
+
+    for (int i = 0; i < vertices; i++) {
+      for (int j = 0; j < iterations; j++) {
+        long result = PrimSTL.primsSTL(graph, i + 1, false);
+        writer.writeLine(fileName,
+            "STL",
+            Integer.toString(j + 1),
+            Integer.toString(i + 1),
+            Long.toString(result)
+        );
+      }
+      writer.flush();
+    }
+  }
+
+  /**
+   * Run the given graph through the data structures implementation of Prims
+   *
+   * @param graph      Graph file that the algorithms should be run on
+   * @param iterations Number of times each algorithm should be run
+   */
+  static void runDSBenchmark(Graph graph, int iterations,
+                             String fileName) {
+    int vertices = graph.getVertices();
+
+    for (int i = 0; i < vertices; i++) {
+      for (int j = 0; j < iterations; j++) {
+        long result = PrimDS.primsDS(graph, i + 1, false);
+        writer.writeLine(fileName,
+            "DS",
+            Integer.toString(j + 1),
+            Integer.toString(i + 1),
+            Long.toString(result)
+        );
+      }
+      writer.flush();
     }
   }
 }

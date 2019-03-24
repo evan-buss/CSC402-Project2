@@ -63,7 +63,7 @@ public class PrimSTL {
       if (args[1].equals("")) {
         System.out.println("Running in Batch Mode...");
         System.out.println("Source Vertex: " + graph.getBatchVertex() + "\n");
-        primsSTL(graph, graph.getBatchVertex());
+        primsSTL(graph, graph.getBatchVertex(), true);
       } else {
         // Make an array of all the given starting vertices
         String[] sources = args[1].split(",");
@@ -72,7 +72,7 @@ public class PrimSTL {
           System.out.println("Source Vertex: " + vertex);
           int intVertex = Integer.parseInt(vertex);
           if (intVertex > 0 && intVertex < graph.getVertices()) {
-            primsSTL(graph, intVertex);
+            primsSTL(graph, intVertex, true);
           } else {
             System.out.println("Invalid source vertex... Exiting.");
             System.exit(-1);
@@ -94,7 +94,7 @@ public class PrimSTL {
    * @param graph  prim.Graph object representing the graph loaded from a graph file
    * @param vertex The source vertex that the algorithm should start from
    */
-  public static void primsSTL(Graph graph, int vertex) {
+  public static long primsSTL(Graph graph, int vertex, boolean printOutput) {
     int weight = 0;
     PriorityQueue<Edge> availableEdges =
         new PriorityQueue<>(graph.getEdges(), new EdgeComparator());
@@ -128,13 +128,17 @@ public class PrimSTL {
       }
     }
     long endNano = System.nanoTime();
-    System.out.println("Minimum Spanning Tree: ");
-    System.out.println("\t" + vertices);
-    System.out.println("\tTotal Cost: " + weight);
-    // Convert nanoseconds to microseconds
-    System.out.println("\tMicroseconds: " +
-        (double) (endNano - startNano) / 1000 +
-        " (" + (endNano - startNano) + ")\n");
+
+    if (printOutput) {
+      System.out.println("Minimum Spanning Tree: ");
+      System.out.println("\t" + vertices);
+      System.out.println("\tTotal Cost: " + weight);
+      // Convert nanoseconds to microseconds
+      System.out.println("\tMicroseconds: " +
+          (double) (endNano - startNano) / 1000 +
+          " (" + (endNano - startNano) + ")\n");
+    }
+    return endNano-startNano;
   }
 }
 

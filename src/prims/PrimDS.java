@@ -62,7 +62,7 @@ public class PrimDS {
       if (args[1].equals("")) {
         System.out.println("Running in Batch Mode...");
         System.out.println("Source Vertex: " + graph.getBatchVertex() + "\n");
-        primsDS(graph, graph.getBatchVertex());
+        primsDS(graph, graph.getBatchVertex(), true);
       } else {
         // Make array of starting vertices. Run algorithm for each one
         String[] sources = args[1].split(",");
@@ -70,7 +70,7 @@ public class PrimDS {
           System.out.println("Source Vertex: " + vertex);
           int intVertex = Integer.parseInt(vertex);
           if (intVertex > 0 && intVertex < graph.getEdges()) {
-            primsDS(graph, intVertex);
+            primsDS(graph, intVertex, true);
           } else {
             System.out.println("Invalid source vertex... Exiting.");
             System.exit(-1);
@@ -92,7 +92,7 @@ public class PrimDS {
    * @param graph  prim.Graph object representing the graph loaded from a graph file
    * @param vertex The source vertex that the algorithm should start from
    */
-  public static void primsDS(Graph graph, int vertex) {
+  public static long primsDS(Graph graph, int vertex, boolean printOutput) {
     int weight = 0;
     EdgePriorityQueue availableEdges =
         new EdgePriorityQueue(graph.getVertices());
@@ -131,14 +131,17 @@ public class PrimDS {
       }
     }
     long endNano = System.nanoTime();
+    if (printOutput) {
+      System.out.println("Minimum Spanning Tree: ");
+      System.out.println("\t" + Arrays.toString(vertices));
+      System.out.println("\tTotal Cost: " + weight);
+      // Convert nanoseconds to microseconds
+      System.out.println("\tMicroseconds: " +
+          (double) (endNano - startNano) / 1000 +
+          " (" + (endNano - startNano) + ")\n");
+    }
 
-    System.out.println("Minimum Spanning Tree: ");
-    System.out.println("\t" + Arrays.toString(vertices));
-    System.out.println("\tTotal Cost: " + weight);
-    // Convert nanoseconds to microseconds
-    System.out.println("\tMicroseconds: " +
-        (double) (endNano - startNano) / 1000 +
-        " (" + (endNano - startNano) + ")\n");
+    return endNano-startNano;
   }
 
   /**
