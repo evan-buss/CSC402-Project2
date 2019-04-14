@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
+/**
+ * Outputs raw data of each run. File does not do any calculations.
+ */
 public class FineBenchmark {
 
     static CSVWriter writer;

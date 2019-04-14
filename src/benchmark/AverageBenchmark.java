@@ -10,13 +10,17 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Computes the averages for each graph file. Does all the calculations before outputting
+ * to CSV. Makes it easier to analyze the results.
+ */
 public class AverageBenchmark {
 
     static CSVWriter writer;
 
     private static DecimalFormat df = new DecimalFormat(".##");
 
-    public AverageBenchmark(String directory, int iterations) {
+    AverageBenchmark(String directory, int iterations) {
         File inputDirectory = new File(directory);
 
         LocalDateTime date = LocalDateTime.now();
@@ -49,7 +53,9 @@ public class AverageBenchmark {
     }
 
     /**
-     * Run the given graph through the STL implementation of Prims
+     * Run the given graph through the both implementations of the algorithm
+     * Outputs the averages for each vertex as well as the average of all
+     * vertex averages.
      *
      * @param graph      Graph file that the algorithms should be run on
      * @param iterations Number of times each algorithm should be run
@@ -104,7 +110,8 @@ public class AverageBenchmark {
         writer.writeRow(fileName,
                 "ALL",
                 df.format(stlAverage / vertices),
-                df.format(dsAverage / vertices));
+                df.format(dsAverage / vertices)
+        );
 
         writer.flush();
     }

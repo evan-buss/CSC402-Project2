@@ -1,0 +1,23 @@
+abstract
+  what you have
+  what you want to do
+  what you want to find out
+  
+intro
+  prim's algorithm
+    theory
+    citations
+    
+implementation of prim's
+  possible representations for data
+  use of priority queues to order edges
+  your programs
+    how each implemented prim's
+    
+
+Testing
+  Outline of testing you feel will accomplish the goal
+ 
+ Results of Testing
+ 
+ Conclusions
