@@ -61,15 +61,19 @@
                defaultvalue="../inputs"
                addproperty="directory"
         />
-        <input message="Enter random seed:"
-               defaultvalue="28"
-               addproperty="seed"
+<!--        <input message="Enter random seed:"-->
+<!--               defaultvalue="28"-->
+<!--               addproperty="seed"-->
+<!--        />-->
+        <input message="Enter iterations to run:"
+               defaultvalue="100"
+               addproperty="iterations"
         />
         <java className="benchmark.Main"
               dir="build"
               fork="true">
             <arg value="${directory}"/>
-            <arg value="${seed}"/>
+            <arg value="${iterations}"/>
         </java>
     </target>
 

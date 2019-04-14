@@ -7,7 +7,7 @@ package prims;
 /* Course: CSC402 - Data Structures 2                       */
 /* Professor: Dr. Spiegel                                   */
 /* Assignment: Project #2                                   */
-/* Filename: prim.PrimDS.java                                    */
+/* Filename: prim.PrimDS.java                               */
 /* Purpose:  *See class header*                             */
 /* Language: Java (Version 8)                               */
 

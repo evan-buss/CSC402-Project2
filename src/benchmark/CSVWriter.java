@@ -14,8 +14,8 @@ class CSVWriter {
     writer = new PrintWriter(new FileWriter(file, true));
   }
 
-  // Write a new line to the file
-  void writeLine(String... columns) {
+  // Write a new row in CSV format
+  void writeRow(String... columns) {
     StringBuilder sb = new StringBuilder();
     for (String str : columns) {
       sb.append(str);
@@ -24,6 +24,10 @@ class CSVWriter {
       }
     }
     writer.println(sb.toString());
+  }
+
+  void writeLine(String data) {
+    writer.println(data);
   }
 
   // Flush the stream. This is a great way to improve write performance. By
