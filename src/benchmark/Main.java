@@ -1,8 +1,8 @@
 package benchmark;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 // This class instantiate the tests
 public class Main {
@@ -20,14 +20,12 @@ public class Main {
         Runtime rt = Runtime.getRuntime();
         try {
 //            Generate full graphs (5 and 10 vertices)
-            rt.exec("../generation/genGraphFull ../inputs/5_" +
-                    args[2] +
-                    "_FULL.txt 5 20 "
-                    + args[2]);
-            rt.exec("../generation/genGraphFull ../inputs/10_" +
-                    args[2] +
-                    "_FULL.txt 10 20 "
-                    + args[2]);
+            rt.exec("../generation/genGraphFull " +
+                    "../inputs/5_" + args[2] + "_FULL.txt 5 20 " + //Output Filename
+                    args[2]); // Random Seed
+            rt.exec("../generation/genGraphFull " +
+                    "../inputs/10_" + args[2] + "_FULL.txt 10 20 " + //Output Filename
+                    args[2]); // Random Seed
 
 //            Generate regular graphs that may have unconnected vertices (5 and 10 vertices)
             Random rand = new Random();
@@ -37,22 +35,33 @@ public class Main {
             int random = rand.nextInt(11);
 
             rt.exec("../generation/genGraph " +
-                    " ../inputs/5_" + args[2] + "_REG_" + random +
-                    " 5 " +
-                    random +
-                    " 20 " +
-                    args[2]);
+                    " ../inputs/5_" + args[2] + "_REG_" + random + //Output Filename
+                    " 5 " +   // Vertices
+                    random +  // Degree
+                    " 20 " +  // Max Edge Weight
+                    args[2]); // Random Seed
             rt.exec("../generation/genGraph  " +
-                    "../inputs/10_" + args[2] + "_REG_" + random +
-                    " 10 " +
-                    random +
-                    " 20 " +
-                    args[2]);
+                    "../inputs/10_" + args[2] + "_REG_" + random + // Output Filename
+                    " 10 " +  // Vertices
+                    random +  // Degree
+                    " 20 " +  // Max Edge Weight
+                    args[2]); // Random Seed
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         new FineBenchmark(args[0], Integer.parseInt(args[1]));
         new AverageBenchmark(args[0], Integer.parseInt(args[1]));
+
+
+//        Delete generated files when finished
+        File inputDirectory = new File(args[0]);
+        for (File file :
+                inputDirectory.listFiles()) {
+            if (!file.isDirectory()) {
+                file.delete();
+            }
+        }
+
     }
 }
