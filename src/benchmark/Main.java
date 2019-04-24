@@ -31,7 +31,7 @@ public class Main {
             Random rand = new Random();
             rand.setSeed(Long.parseLong(args[2]));
 
-            // Obtain a number between [0 - 49].
+            // Obtain a number between [0 - 10].
             int random = rand.nextInt(11);
 
             rt.exec("../generation/genGraph " +
@@ -54,7 +54,7 @@ public class Main {
         new AverageBenchmark(args[0], Integer.parseInt(args[1]));
 
 
-//        Delete generated files when finished
+       // Delete generated files when finished
         File inputDirectory = new File(args[0]);
         for (File file :
                 inputDirectory.listFiles()) {

@@ -26,3 +26,5 @@ workspace.xml
 build/
 dist/
 javadoc/
+
+inputs/
